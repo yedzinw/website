@@ -1,0 +1,22 @@
+---
+title: "SQL"
+output: html_document
+---
+
+# This is a first-level header
+## This is a second-level header
+### This is a third-level header
+
+For a normal paragraph just type normally
+
+* list 1
+* list 2
+* list 3
+
+Colomn 1 | colomn 2
+---|---
+Phillies | cubs
+Yankees | American
+Red sox | mets
+
+<img src="winner.jpg" width="300" />
