@@ -15,8 +15,8 @@ For a normal paragraph just type normally
 
 Colomn 1 | colomn 2
 ---|---
-Phillies | cubs
-Yankees | American
-Red sox | mets
+Eagles | NFC
+Dolphins | panthers
+Panthers | AFC
 
-<img src="winner.jpg" width="300" />
+<img src="winner.jpg" width="600" />
