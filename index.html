@@ -155,6 +155,94 @@ sqldf(query)</code></pre>
 ## 23 shockur01   1927    NYA  0
 ## 24 thomamy01   1927    NYA  0
 ## 25  weraju01   1927    NYA  1</code></pre>
+<p>Moving on we can query out which NY Yankees players hit 40 or more homeruns with the following code:</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,HR FROM Batting 
+WHERE teamID='NYA' and HR&gt;=40&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID teamID yearID HR
+## 1   ruthba01    NYA   1920 54
+## 2   ruthba01    NYA   1921 59
+## 3   ruthba01    NYA   1923 41
+## 4   ruthba01    NYA   1924 46
+## 5   ruthba01    NYA   1926 47
+## 6  gehrilo01    NYA   1927 47
+## 7   ruthba01    NYA   1927 60
+## 8   ruthba01    NYA   1928 54
+## 9   ruthba01    NYA   1929 46
+## 10 gehrilo01    NYA   1930 41
+## 11  ruthba01    NYA   1930 49
+## 12 gehrilo01    NYA   1931 46
+## 13  ruthba01    NYA   1931 46
+## 14  ruthba01    NYA   1932 41
+## 15 gehrilo01    NYA   1934 49
+## 16 gehrilo01    NYA   1936 49
+## 17 dimagjo01    NYA   1937 46
+## 18 mantlmi01    NYA   1956 52
+## 19 mantlmi01    NYA   1958 42
+## 20 mantlmi01    NYA   1960 40
+## 21 mantlmi01    NYA   1961 54
+## 22 marisro01    NYA   1961 61
+## 23 jacksre01    NYA   1980 41
+## 24 martiti02    NYA   1997 44
+## 25 giambja01    NYA   2002 41
+## 26 giambja01    NYA   2003 41
+## 27 rodrial01    NYA   2005 48
+## 28 rodrial01    NYA   2007 54
+## 29 grandcu01    NYA   2011 41
+## 30 grandcu01    NYA   2012 43</code></pre>
+<p>Adding the Strike Outs into the query we can further filter out which players hit over 40 homeruns AND had less than 60 strike outs with the following:</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,SO,HR FROM Batting 
+WHERE HR&gt;=40 and SO&lt;=60&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID teamID yearID SO HR
+## 1  hornsro01    SLN   1922 50 42
+## 2  willicy01    PHI   1923 57 41
+## 3    ottme01    NY1   1929 38 42
+## 4   ruthba01    NYA   1929 60 46
+## 5  kleinch01    PHI   1930 50 40
+## 6  gehrilo01    NYA   1931 56 46
+## 7   ruthba01    NYA   1931 51 46
+## 8  gehrilo01    NYA   1934 31 49
+## 9  gehrilo01    NYA   1936 46 49
+## 10 troskha01    CLE   1936 58 42
+## 11 dimagjo01    NYA   1937 37 46
+## 12  mizejo01    SLN   1940 49 43
+## 13  mizejo01    NY1   1947 42 51
+## 14  mizejo01    NY1   1948 37 40
+## 15 willite01    BOS   1949 48 43
+## 16 kinerra01    PIT   1951 57 42
+## 17 camparo01    BRO   1953 58 41
+## 18 kluszte01    CIN   1953 34 40
+## 19 rosenal01    CLE   1953 48 43
+## 20 kluszte01    CIN   1954 35 49
+## 21  mayswi01    NY1   1954 57 41
+## 22 kluszte01    CIN   1955 40 47
+## 23  mayswi01    NY1   1955 60 51
+## 24 aaronha01    ML1   1957 58 44
+## 25 sievero01    WS1   1957 55 42
+## 26 aaronha01    ATL   1969 47 44
+## 27 aaronha01    ATL   1971 58 47
+## 28 aaronha01    ATL   1973 51 40
+## 29 thomafr04    CHA   1993 54 41
+## 30 bondsba01    SFN   2002 47 46
+## 31 bondsba01    SFN   2003 58 45
+## 32 bondsba01    SFN   2004 41 45
+## 33 pujolal01    SLN   2004 52 46
+## 34 pujolal01    SLN   2006 50 49</code></pre>
+<p>Finally we’re filtering all the teams to just the Phillies, query the years in the 1970’s (using a range), and finally extract the players with more than 30 homeruns.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,SO,HR FROM Batting 
+WHERE yearID&gt;1970 and yearID&lt;1980 and  teamID='PHI' and HR&gt;30&quot;
+sqldf(query)</code></pre>
+<pre><code>##    playerID teamID yearID  SO HR
+## 1 johnsde01    PHI   1971 146 34
+## 2 schmimi01    PHI   1974 138 36
+## 3 luzingr01    PHI   1975 151 34
+## 4 schmimi01    PHI   1975 180 38
+## 5 schmimi01    PHI   1976 149 38
+## 6 luzingr01    PHI   1977 140 39
+## 7 schmimi01    PHI   1977 122 38
+## 8 luzingr01    PHI   1978 135 35
+## 9 schmimi01    PHI   1979 115 45</code></pre>
 </div>
 
 

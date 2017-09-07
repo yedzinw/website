@@ -20,4 +20,25 @@ sqldf(query)
 
 ```
 
+Moving on we can query out which NY Yankees players hit 40 or more homeruns with the following code:
 
+```{r}
+query<-"SELECT playerID,teamID,yearID,HR FROM Batting 
+WHERE teamID='NYA' and HR>=40"
+sqldf(query)
+
+```
+Adding the Strike Outs into the query we can further filter out which players hit over 40 homeruns AND had less than 60 strike outs with the following:
+```{r}
+query<-"SELECT playerID,teamID,yearID,SO,HR FROM Batting 
+WHERE HR>=40 and SO<=60"
+sqldf(query)
+
+```
+Finally we're filtering all the teams to just the Phillies, query the years in the 1970's (using a range), and finally extract the players with more than 30 homeruns.
+```{r}
+query<-"SELECT playerID,teamID,yearID,SO,HR FROM Batting 
+WHERE yearID>1970 and yearID<1980 and  teamID='PHI' and HR>30"
+sqldf(query)
+
+```
