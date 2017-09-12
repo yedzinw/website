@@ -42,3 +42,27 @@ WHERE yearID>1970 and yearID<1980 and  teamID='PHI' and HR>30"
 sqldf(query)
 
 ```
+
+##Ordering Data Output
+
+With SQL you can also arrange the data by a certain order.By using the code order by, we are arranging the data based on HR in decending order 
+```{r}
+query<-"SELECT playerID,teamID,yearID,HR FROM Batting
+WHERE HR>50
+ORDER BY HR DESC"
+sqldf(query)
+
+```
+Here is another example of arranging the data by order:
+
+```{r}
+query<-"SELECT playerID,teamID,yearID,SO,AB FROM Batting
+WHERE SO<10 and AB>=400
+order by SO"
+sqldf(query)
+
+```
+
+##Aggregation
+
+##Joins

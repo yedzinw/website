@@ -244,6 +244,128 @@ sqldf(query)</code></pre>
 ## 8 luzingr01    PHI   1978 135 35
 ## 9 schmimi01    PHI   1979 115 45</code></pre>
 </div>
+<div id="ordering-data-output" class="section level2">
+<h2>Ordering Data Output</h2>
+<p>With SQL you can also arrange the data by a certain order.By using the code order by, we are arranging the data based on HR in decending order</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,HR FROM Batting
+WHERE HR&gt;50
+ORDER BY HR DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID teamID yearID HR
+## 1  bondsba01    SFN   2001 73
+## 2  mcgwima01    SLN   1998 70
+## 3   sosasa01    CHN   1998 66
+## 4  mcgwima01    SLN   1999 65
+## 5   sosasa01    CHN   2001 64
+## 6   sosasa01    CHN   1999 63
+## 7  marisro01    NYA   1961 61
+## 8   ruthba01    NYA   1927 60
+## 9   ruthba01    NYA   1921 59
+## 10  foxxji01    PHA   1932 58
+## 11 greenha01    DET   1938 58
+## 12 howarry01    PHI   2006 58
+## 13 gonzalu01    ARI   2001 57
+## 14 rodrial01    TEX   2002 57
+## 15 wilsoha01    CHN   1930 56
+## 16 griffke02    SEA   1997 56
+## 17 griffke02    SEA   1998 56
+## 18  ruthba01    NYA   1920 54
+## 19  ruthba01    NYA   1928 54
+## 20 kinerra01    PIT   1949 54
+## 21 mantlmi01    NYA   1961 54
+## 22 ortizda01    BOS   2006 54
+## 23 rodrial01    NYA   2007 54
+## 24 bautijo02    TOR   2010 54
+## 25 davisch02    BAL   2013 53
+## 26 mantlmi01    NYA   1956 52
+## 27  mayswi01    SFN   1965 52
+## 28 fostege01    CIN   1977 52
+## 29 mcgwima01    OAK   1996 52
+## 30 rodrial01    TEX   2001 52
+## 31 thomeji01    CLE   2002 52
+## 32 kinerra01    PIT   1947 51
+## 33  mizejo01    NY1   1947 51
+## 34  mayswi01    NY1   1955 51
+## 35 fieldce01    DET   1990 51
+## 36 jonesan01    ATL   2005 51</code></pre>
+<p>Here is another example of arranging the data by order:</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,SO,AB FROM Batting
+WHERE SO&lt;10 and AB&gt;=400
+order by SO&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID teamID yearID SO  AB
+## 1  doyleja01    NY1   1894  3 422
+## 2  seweljo01    NYA   1932  3 503
+## 3  seweljo01    CLE   1925  4 608
+## 4  seweljo01    CLE   1929  4 578
+## 5  seweljo01    NYA   1933  4 524
+## 6   wardjo01    NY1   1893  5 588
+## 7  holloch01    CHN   1922  5 592
+## 8  mcinnst01    CLE   1922  5 537
+## 9  wanerll01    PIT   1936  5 414
+## 10 wrighge01    BS1   1875  6 408
+## 11 broutda01    BSN   1889  6 485
+## 12 keelewi01    BLN   1894  6 590
+## 13  wardjo01    NY1   1894  6 540
+## 14 quinnjo02    SLN   1895  6 543
+## 15 mcinnst01    BSN   1924  6 581
+## 16 seweljo01    CLE   1926  6 578
+## 17  wardjo01    NY1   1889  7 479
+## 18 crossla01    PHI   1893  7 415
+## 19 quinnjo02    SLN   1893  7 547
+## 20 crossla01    PHI   1894  7 529
+## 21 vaughfa01    CIN   1896  7 433
+## 22 cochrmi01    PHA   1927  7 432
+## 23 seweljo01    CLE   1927  7 569
+## 24 traynpi01    PIT   1929  7 540
+## 25 muelldo01    NY1   1956  7 453
+## 26 connoro01    NY1   1885  8 455
+## 27 glassja01    IN3   1887  8 483
+## 28 glassja01    NY1   1890  8 512
+## 29 donovpa01    PIT   1893  8 499
+## 30 dungasa01    CHN   1893  8 465
+## 31 pinknge01    LS3   1893  8 446
+## 32 brodist01    BLN   1894  8 573
+## 33 quinnjo02    SLN   1894  8 405
+## 34 bierblo01    PIT   1895  8 466
+## 35 crossla01    PHI   1895  8 535
+## 36   hoydu01    CIN   1895  8 429
+## 37 roushed01    CIN   1921  8 418
+## 38 collied01    CHA   1923  8 505
+## 39 collied01    CHA   1925  8 425
+## 40 speaktr01    WS1   1927  8 523
+## 41 cochrmi01    PHA   1929  8 514
+## 42 seweljo01    NYA   1931  8 484
+## 43 wanerll01    PIT   1933  8 500
+## 44 verbaem01    PHI   1947  8 540
+## 45 ansonca01    CHN   1883  9 413
+## 46 broutda01    DTN   1887  9 500
+## 47   hoydu01    WAS   1893  9 564
+## 48 bierblo01    PIT   1894  9 525
+## 49 broutda01    BLN   1894  9 525
+## 50 milledo01    SLN   1894  9 481
+## 51 keelewi01    BLN   1896  9 544
+## 52 mckeaed01    CL4   1896  9 571
+## 53 speaktr01    CLE   1918  9 471
+## 54  dealch01    CHN   1921  9 422
+## 55 mcinnst01    BOS   1921  9 584
+## 56 severha01    SLA   1921  9 472
+## 57  highan01    BSN   1926  9 476
+## 58 summaho01    CLE   1926  9 581
+## 59 seweljo01    CLE   1928  9 588
+## 60  ricesa01    WS1   1929  9 616
+## 61 leachfr01    NY1   1931  9 515
+## 62 busched01    PHA   1945  9 416
+## 63 holmeto01    BSN   1945  9 636
+## 64 boudrlo01    CLE   1948  9 560
+## 65 mitchda01    CLE   1952  9 511</code></pre>
+</div>
+<div id="aggregation" class="section level2">
+<h2>Aggregation</h2>
+</div>
+<div id="joins" class="section level2">
+<h2>Joins</h2>
+</div>
 
 
 
