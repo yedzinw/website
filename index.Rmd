@@ -12,6 +12,8 @@ library(Lahman)
 library(sqldf)
 
 ```
+#Example:
+
 Suppose we want to see the homerun totals for the 1927 Yabkees. We could write the following.
 ```{r}
 query<-"SELECT playerID, yearID, teamID, HR FROM Batting
@@ -45,7 +47,10 @@ sqldf(query)
 
 ##Ordering Data Output
 
-With SQL you can also arrange the data by a certain order.By using the code order by, we are arranging the data based on HR in decending order 
+With SQL you can also arrange the data by a certain order.By using the code order by, we are arranging the data based on HR in decending order
+
+###Example
+
 ```{r}
 query<-"SELECT playerID,teamID,yearID,HR FROM Batting
 WHERE HR>50
@@ -64,5 +69,67 @@ sqldf(query)
 ```
 
 ##Aggregation
+Aggregation is essentially the "squishing" of all the data into 1 record.It allows for the ouput of the sum of all records and this can be done by using the code GROUP BY. To further narrow in on how the other columns should be grouped filtering can be done by using the HAVING command.
+
+###Example:
+
+Find Babe Ruth's career homerun total
+
+```{r}
+query<-"SELECT playerID, sum(HR) FROM Batting 
+WHERE playerID='ruthba01'
+GROUP BY playerID"
+sqldf (query)
+
+```
+Find the career home run totals of all player, but limit the display to only those that hit 600 or more. Have the players with the highest total at the top.
+
+```{r}
+query<-"SELECT playerID,sum(HR) FROM Batting
+GROUP BY playerID
+HAVING sum(HR)>600
+ORDER BY sum(HR)DESC"
+sqldf(query)
+
+```
+Find the players with the highest homeruns average over their career. Limit the display to those who have an average of more than 30. Players with the highest average at the top.
+
+```{r}
+query<-"SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+Having avg(HR)>30
+ORDER BY avg(HR)DESC"
+sqldf(query)
+
+```
 
 ##Joins
+It allows tables to be joined together based on common data hence increasing the data output options. This is done through the INNER JOIN and ON commands. INNER JOIN indicates which tables are being joined together. ON indicates the common data that the tables will be joined by.
+
+###Example:
+
+List first name,last name, year, team ID and HR. Limit it to Babe Ruth
+
+```{r}
+query<-"SELECT nameFirst,nameLast,teamID,HR 
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE Batting.playerID='ruthba01'"
+
+sqldf(query)
+
+```
+
+Find all instances of players hitting more than 50 homeruns. Give first and last names, team ID, year ID and HRs. 
+
+```{r}
+query<-"SELECT nameFirst,nameLast,teamID,yearID,HR
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE HR>50
+ORDER BY HR DESC"
+
+sqldf(query)
+
+```
+
