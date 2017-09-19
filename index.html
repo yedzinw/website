@@ -125,6 +125,9 @@ $(document).ready(function () {
 <p>With SQL you can filter colomns with SELECT and rows with WHERE. Let’s look at an example using the Lahman baseball database. First we need to load some packages.</p>
 <pre class="r"><code>library(Lahman)
 library(sqldf)</code></pre>
+</div>
+<div id="example" class="section level1">
+<h1>Example:</h1>
 <p>Suppose we want to see the homerun totals for the 1927 Yabkees. We could write the following.</p>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID, yearID, teamID, HR FROM Batting
 WHERE teamID='NYA' and yearID=1927&quot;
@@ -243,10 +246,11 @@ sqldf(query)</code></pre>
 ## 7 schmimi01    PHI   1977 122 38
 ## 8 luzingr01    PHI   1978 135 35
 ## 9 schmimi01    PHI   1979 115 45</code></pre>
-</div>
 <div id="ordering-data-output" class="section level2">
 <h2>Ordering Data Output</h2>
 <p>With SQL you can also arrange the data by a certain order.By using the code order by, we are arranging the data based on HR in decending order</p>
+<div id="example-1" class="section level3">
+<h3>Example</h3>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID,teamID,yearID,HR FROM Batting
 WHERE HR&gt;50
 ORDER BY HR DESC&quot;
@@ -360,11 +364,138 @@ sqldf(query)</code></pre>
 ## 64 boudrlo01    CLE   1948  9 560
 ## 65 mitchda01    CLE   1952  9 511</code></pre>
 </div>
+</div>
 <div id="aggregation" class="section level2">
 <h2>Aggregation</h2>
+<p>Aggregation is essentially the “squishing” of all the data into 1 record.It allows for the ouput of the sum of all records and this can be done by using the code GROUP BY. To further narrow in on how the other columns should be grouped filtering can be done by using the HAVING command.</p>
+<div id="example-2" class="section level3">
+<h3>Example:</h3>
+<p>Find Babe Ruth’s career homerun total</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID, sum(HR) FROM Batting 
+WHERE playerID='ruthba01'
+GROUP BY playerID&quot;
+sqldf (query)</code></pre>
+<pre><code>##   playerID sum(HR)
+## 1 ruthba01     714</code></pre>
+<p>Find the career home run totals of all player, but limit the display to only those that hit 600 or more. Have the players with the highest total at the top.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,sum(HR) FROM Batting
+GROUP BY playerID
+HAVING sum(HR)&gt;600
+ORDER BY sum(HR)DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##    playerID sum(HR)
+## 1 bondsba01     762
+## 2 aaronha01     755
+## 3  ruthba01     714
+## 4 rodrial01     696
+## 5  mayswi01     660
+## 6 griffke02     630
+## 7 thomeji01     612
+## 8  sosasa01     609</code></pre>
+<p>Find the players with the highest homeruns average over their career. Limit the display to those who have an average of more than 30. Players with the highest average at the top.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+Having avg(HR)&gt;30
+ORDER BY avg(HR)DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID  avg(HR)
+## 1  pujolal01 36.93750
+## 2  bondsba01 34.63636
+## 3  mcgwima01 34.29412
+## 4  kinerra01 33.54545
+## 5  aaronha01 32.82609
+## 6  bryankr01 32.50000
+## 7   ruthba01 32.45455
+## 8   sosasa01 32.05263
+## 9  cabremi01 31.85714
+## 10 belleal01 31.75000
+## 11 rodrial01 31.63636
+## 12 schmimi01 30.44444
+## 13 abreujo02 30.33333</code></pre>
+</div>
 </div>
 <div id="joins" class="section level2">
 <h2>Joins</h2>
+<p>It allows tables to be joined together based on common data hence increasing the data output options. This is done through the INNER JOIN and ON commands. INNER JOIN indicates which tables are being joined together. ON indicates the common data that the tables will be joined by.</p>
+<div id="example-3" class="section level3">
+<h3>Example:</h3>
+<p>List first name,last name, year, team ID and HR. Limit it to Babe Ruth</p>
+<pre class="r"><code>query&lt;-&quot;SELECT nameFirst,nameLast,teamID,HR 
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE Batting.playerID='ruthba01'&quot;
+
+sqldf(query)</code></pre>
+<pre><code>##    nameFirst nameLast teamID HR
+## 1       Babe     Ruth    BOS  0
+## 2       Babe     Ruth    BOS  4
+## 3       Babe     Ruth    BOS  3
+## 4       Babe     Ruth    BOS  2
+## 5       Babe     Ruth    BOS 11
+## 6       Babe     Ruth    BOS 29
+## 7       Babe     Ruth    NYA 54
+## 8       Babe     Ruth    NYA 59
+## 9       Babe     Ruth    NYA 35
+## 10      Babe     Ruth    NYA 41
+## 11      Babe     Ruth    NYA 46
+## 12      Babe     Ruth    NYA 25
+## 13      Babe     Ruth    NYA 47
+## 14      Babe     Ruth    NYA 60
+## 15      Babe     Ruth    NYA 54
+## 16      Babe     Ruth    NYA 46
+## 17      Babe     Ruth    NYA 49
+## 18      Babe     Ruth    NYA 46
+## 19      Babe     Ruth    NYA 41
+## 20      Babe     Ruth    NYA 34
+## 21      Babe     Ruth    NYA 22
+## 22      Babe     Ruth    BSN  6</code></pre>
+<p>Find all instances of players hitting more than 50 homeruns. Give first and last names, team ID, year ID and HRs.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT nameFirst,nameLast,teamID,yearID,HR
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE HR&gt;50
+ORDER BY HR DESC&quot;
+
+sqldf(query)</code></pre>
+<pre><code>##    nameFirst  nameLast teamID yearID HR
+## 1      Barry     Bonds    SFN   2001 73
+## 2       Mark   McGwire    SLN   1998 70
+## 3      Sammy      Sosa    CHN   1998 66
+## 4       Mark   McGwire    SLN   1999 65
+## 5      Sammy      Sosa    CHN   2001 64
+## 6      Sammy      Sosa    CHN   1999 63
+## 7      Roger     Maris    NYA   1961 61
+## 8       Babe      Ruth    NYA   1927 60
+## 9       Babe      Ruth    NYA   1921 59
+## 10    Jimmie      Foxx    PHA   1932 58
+## 11      Hank Greenberg    DET   1938 58
+## 12      Ryan    Howard    PHI   2006 58
+## 13      Luis  Gonzalez    ARI   2001 57
+## 14      Alex Rodriguez    TEX   2002 57
+## 15      Hack    Wilson    CHN   1930 56
+## 16       Ken   Griffey    SEA   1997 56
+## 17       Ken   Griffey    SEA   1998 56
+## 18      Babe      Ruth    NYA   1920 54
+## 19      Babe      Ruth    NYA   1928 54
+## 20     Ralph     Kiner    PIT   1949 54
+## 21    Mickey    Mantle    NYA   1961 54
+## 22     David     Ortiz    BOS   2006 54
+## 23      Alex Rodriguez    NYA   2007 54
+## 24      Jose  Bautista    TOR   2010 54
+## 25     Chris     Davis    BAL   2013 53
+## 26    Mickey    Mantle    NYA   1956 52
+## 27    Willie      Mays    SFN   1965 52
+## 28    George    Foster    CIN   1977 52
+## 29      Mark   McGwire    OAK   1996 52
+## 30      Alex Rodriguez    TEX   2001 52
+## 31       Jim     Thome    CLE   2002 52
+## 32     Ralph     Kiner    PIT   1947 51
+## 33    Johnny      Mize    NY1   1947 51
+## 34    Willie      Mays    NY1   1955 51
+## 35     Cecil   Fielder    DET   1990 51
+## 36    Andruw     Jones    ATL   2005 51</code></pre>
+</div>
+</div>
 </div>
 
 
