@@ -12,7 +12,7 @@ library(Lahman)
 library(sqldf)
 
 ```
-#Example:
+###Example:
 
 Suppose we want to see the homerun totals for the 1927 Yabkees. We could write the following.
 ```{r}
@@ -133,3 +133,23 @@ sqldf(query)
 
 ```
 
+Replace the team name rather than the teamId for all of the years Babe Ruth played.
+```{r}
+query<-"select playerID,name, Batting.yearID,Batting.HR
+from Batting inner join Teams on Batting.teamID=Teams.teamId
+and Batting.yearID=Teams.yearID
+where playerID='ruthba01'"
+
+sqldf(query)
+```
+Find the first and last name for all players with the first name Bob with an average salary over $1000000
+```{r}
+query<-"select nameFirst, nameLast, avg(salary) from Salaries
+inner join Master on Salaries.playerID=Master.playerID
+where nameFirst='Bob'
+group by Salaries.playerID
+having avg(salary)>1000000
+order by avg(salary) desc"
+
+sqldf(query)
+```
